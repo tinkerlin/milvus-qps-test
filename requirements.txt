@@ -1,0 +1,4 @@
+pymilvus==0.2.8
+numpy==1.18.1
+PyYAML==5.3
+scikit_learn==0.22.2.post1
