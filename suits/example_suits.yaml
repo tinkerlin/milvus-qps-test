@@ -2,16 +2,17 @@ QPS:
   - milvus:
     collection_scheme:
       {
-        "collection_name": "ivf-random-l2", # keep unique
+        "collection_name": "ivf_random_l2", # keep unique
         "dim": 128,
         "data_size": 1000000,
-        "metric_type": "L2", # random data only support L2 now, and not support opensource data
+        "index_size": 256,
+        "metric_type": "l2", # random data only support L2 now, and not support opensource data
         "index_type": "ivf_flat",
       }
     build_args: { "nlist": [8192] }
     search_args:
       {
-        "query_size": [1, 10],
+        "query_size": [1, 10,100],
         "topk": [1, 10],
         "nprobe": [1,10,50],
       }

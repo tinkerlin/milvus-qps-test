@@ -29,8 +29,10 @@ def run_individual_query(connect, query, search_param, batch):
 def build_all(connect, X_train, collection_scheme, build_param):
     if connect.exists_collection():
         connect.delete()
+        time.sleep(2)
     connect.create_collection(
-        collection_scheme["collection_name"], collection_scheme["dim"], 1024, collection_scheme["metric_type"])
+        collection_scheme["collection_name"], collection_scheme["dim"],
+        collection_scheme["index_size"], collection_scheme["metric_type"])
     loops = len(X_train) // INSERT_INTERVAL + 1
     for i in range(loops):
         start = i*INSERT_INTERVAL
@@ -66,7 +68,7 @@ def run(definition, connection_num, run_count, batch):
                   (pos, len(search_params)))
             print("search_params:", search_param)
             query_vector = X_test[0:search_param["query_size"]]
-            min_total_time = 0
+            min_total_time = 100
             for _ in range(run_count):
                 totoal_time = 0
                 with concurrent.futures.ThreadPoolExecutor(max_workers=connection_num) as executor:
