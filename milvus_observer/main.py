@@ -84,9 +84,9 @@ def main():
 
     for d in definitions:
         if args.topk:
-            d["search-args"]["topk"] = [args.topk]
+            d["search_args"]["topk"] = [args.topk]
         if args.nq:
-            d["search-args"]["query_size"] = [args.nq]
+            d["search_args"]["query_size"] = [args.nq]
     logger.debug("definition: %s" % definitions)
 
     for definition in definitions:
