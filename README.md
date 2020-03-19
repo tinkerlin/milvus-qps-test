@@ -28,8 +28,40 @@ Example
 1. Run `python run.py --suite=suites/example_suite.yaml` 
     - The script will build collection named **ivf_random_l2** and create dataset as descried in collection_scheme. The dataset is store at data folder. After insert data and build index, the scrpit will perform sereral parameter combinations to test QPS.
 2. Once you run the suite.yaml, you don't need to recreate collection again. By invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly` , the QPS test will perform again.
-3. You can test specified search-parameter by invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly -nq=5 -k=20 --runs=10 --clients=50`.
+3. You can test specified search-parameter by invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly -nq=5 -k=20 --runs=10 --clients=50` .
     - If nq or k is specified, the script will only execute the input parameter combination.
+
+Datasets
+========================
+
+1. You can use random dataset
+    - To run experiments on random-dataset
+    ``` 
+        collection_scheme: {
+            "collection_name": "ivf_random_l2", # keep unique
+            "dim": 128,
+            "data_size": 1000000,
+            "index_size": 512,
+            "metric_type": "l2", # random data only support L2 now
+            "index_type": "ivf_flat",
+        }
+
+    ``` 
+
+2. You can also use standard dataset. **Find all supported datasets here `dataset.py:364`**
+    - To run experiments on SIFT
+    ```
+
+        collection_scheme: {
+            "collection_name": "ivf_sift1m",
+            "dataset": "sift-128-euclidean", # use dataset metioned before
+            "dim": 128,                      
+            "index_size": 512,               
+            "metric_type": "l2",             
+            "index_type": "ivf_flat",        
+        }
+
+    ``` 
 
 Including your test-suite
 ========================
@@ -39,7 +71,7 @@ Including your test-suite
 TODO
 ========================
 
-1. Support ANNS stardand Dataset [sift, glove, mnist...]
+1. ~~Support ANNS stardand Dataset [sift, glove, mnist...]~~
 2. Collect useful data during the run
 3. Display of results is more humane
 

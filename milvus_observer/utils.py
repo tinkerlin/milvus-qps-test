@@ -1,4 +1,5 @@
 import argparse
+import yaml
 from itertools import product
 
 
@@ -28,3 +29,9 @@ def generate_combinations(args):
     else:
         raise TypeError("No args handling exists for %s" %
                         type(args).__name__)
+
+
+def get_definition_from_yaml(fn):
+    with open(fn, 'r') as f:
+        definitions = yaml.load(f, yaml.SafeLoader)
+    return definitions["QPS"]

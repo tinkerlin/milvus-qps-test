@@ -1,35 +1,34 @@
 QPS:
   - milvus:
-    collection_scheme:
-      {
+    collection_scheme: {
         "collection_name": "ivf_random_l2", # keep unique
         "dim": 128,
         "data_size": 1000000,
-        "index_size": 256,
-        "metric_type": "l2", # random data only support L2 now, and not support opensource data
+        "index_size": 512,
+        "metric_type": "l2", # random data only support L2 now
         "index_type": "ivf_flat",
       }
     build_args: { "nlist": [8192] }
-    search_args:
-      {
-        "query_size": [1, 10,100],
-        "topk": [1, 10],
-        "nprobe": [1,10,50],
+    search_args: { "query_size": [1,10,20,30], "topk": [1,10], "nprobe": [1,20] }
+  - milvus:
+    collection_scheme: {
+        "collection_name": "ivf_sift1m", # keep unique
+        "dataset": "sift-128-euclidean",
+        "dim": 128,
+        "index_size": 512,
+        "metric_type": "l2",
+        "index_type": "ivf_flat",
       }
+    build_args: { "nlist": [8192] }
+    search_args: { "query_size": [1,10,20,30], "topk": [1,10], "nprobe": [1,20] }
   # - milvus:
-  #   collection_scheme:
-  #     {
-  #       "collection_name": "ivf-random-ip",
+  #   collection_scheme: {
+  #       "collection_name": "ivf_sift1m_multi", # keep unique
+  #       "dataset": "sift-128-euclidean",
   #       "dim": 128,
-  #       "data_size": 10000,
-  #       "metric_type": "IP", # random data only support L2 now, and not support opensource data
-  #       # "dataset": angular200,
+  #       "index_size": 512,
+  #       "metric_type": "l2",
   #       "index_type": "ivf_flat",
   #     }
-  #   build_args: { "nlist": [2048, 4096, 8192, 16384] }
-  #   search_args:
-  #     {
-  #       "query_size": [1, 10, 100, 1000],
-  #       "topk": [1, 10, 100, 1000],
-  #       "nprobe": [1, 16, 32, 64, 128, 512],
-  #     }
+  #   build_args: { "nlist": [1024,2048,4096,8192] }
+  #   search_args: { "query_size": [1,10,20,30], "topk": [1,10], "nprobe": [1,20] }

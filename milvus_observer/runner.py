@@ -8,7 +8,7 @@ import milvus
 import numpy
 
 from milvus_observer.client import MilvusClient
-from milvus_observer.data import get_dataset
+from milvus_observer.dataset import get_dataset
 from milvus_observer.utils import generate_combinations
 
 INSERT_INTERVAL = 50000
