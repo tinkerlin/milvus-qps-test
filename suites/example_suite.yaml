@@ -4,7 +4,7 @@ QPS:
         "collection_name": "ivf_random_l2", # keep unique
         "dim": 128,
         "data_size": 1000000,
-        "index_size": 256,
+        "index_size": 512,
         "metric_type": "l2", # random data only support L2 now
         "index_type": "ivf_flat",
       }
@@ -16,8 +16,19 @@ QPS:
         "dataset": "sift-128-euclidean",
         "dim": 128,
         "index_size": 512,
-        "metric_type": "l2", # random data only support L2 now
+        "metric_type": "l2",
         "index_type": "ivf_flat",
       }
     build_args: { "nlist": [8192] }
     search_args: { "query_size": [1,10,20,30], "topk": [1,10], "nprobe": [1,20] }
+  # - milvus:
+  #   collection_scheme: {
+  #       "collection_name": "ivf_sift1m_multi", # keep unique
+  #       "dataset": "sift-128-euclidean",
+  #       "dim": 128,
+  #       "index_size": 512,
+  #       "metric_type": "l2",
+  #       "index_type": "ivf_flat",
+  #     }
+  #   build_args: { "nlist": [1024,2048,4096,8192] }
+  #   search_args: { "query_size": [1,10,20,30], "topk": [1,10], "nprobe": [1,20] }
