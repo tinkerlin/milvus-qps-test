@@ -42,35 +42,21 @@ def run(definition, connection_num, run_count, batch, searchonly):
     collection_scheme = definition["collection_scheme"]
 
     X_train, X_test = get_dataset(definition)
+    build_params = generate_combinations(definition["build_args"])
     search_params = generate_combinations(definition["search_args"])
-    for pos, search_param in enumerate(search_params, 1):
-        if search_param["query_size"] == 1:
-            query_vector = [X_test[0]]
-        else:
-            query_vector = X_test[0:search_param["query_size"]]
-    print(query_vector)
-    # exit()
-
-
-# def run(definition, connection_num, run_count, batch, searchonly):
-#     collection_scheme = definition["collection_scheme"]
-
-#     X_train, X_test = get_dataset(definition)
-#     build_params = generate_combinations(definition["build_args"])
-#     search_params = generate_combinations(definition["search_args"])
-#     if not searchonly:
-#         for pos, build_param in enumerate(build_params, 1):
-#             print("Running train argument group %d of %d..." %
-#                   (pos, len(build_params)))
-#             print("build_params:", build_param)
-#             client = MilvusClient(
-#                 collection_name=collection_scheme["collection_name"])
-#             build_all(client, X_train, collection_scheme, build_param)
-#             run_paralle(
-#                 search_params, collection_scheme["collection_name"], connection_num, X_test, run_count, batch)
-#     else:
-#         run_paralle(
-#             search_params, collection_scheme["collection_name"], connection_num, X_test, run_count, batch)
+    if not searchonly:
+        for pos, build_param in enumerate(build_params, 1):
+            print("Running train argument group %d of %d..." %
+                  (pos, len(build_params)))
+            print("build_params:", build_param)
+            client = MilvusClient(
+                collection_name=collection_scheme["collection_name"])
+            build_all(client, X_train, collection_scheme, build_param)
+            run_paralle(
+                search_params, collection_scheme["collection_name"], connection_num, X_test, run_count, batch)
+    else:
+        run_paralle(
+            search_params, collection_scheme["collection_name"], connection_num, X_test, run_count, batch)
 
 
 def run_paralle(search_params, collection_name, connection_num, X_test, run_count, batch):
