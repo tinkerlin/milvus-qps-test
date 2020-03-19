@@ -22,7 +22,7 @@ def generate_combinations(args):
 
 
 if __name__ == "__main__":
-    # fn = "example_suits.yaml"
+    # fn = "example_suite.yaml"
     # print("file: %s\n" % (1.0/0.2))
     # with open(fn, 'r') as f:
     #     definitions = yaml.load(f, yaml.SafeLoader)

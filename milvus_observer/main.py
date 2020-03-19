@@ -28,11 +28,6 @@ def main():
         metavar='NAME',
         help='run only the named collection',
         default=None)
-    # parser.add_argument(
-    #     '--dataset',
-    #     metavar='NAME',
-    #     help='the dataset to train and search',
-    #     default='glove-100-angular')
     parser.add_argument(
         "-nq",
         type=positive_int,
@@ -48,10 +43,10 @@ def main():
         default=1,
         type=positive_int,
         help="the number of client")
-    # parser.add_argument(
-    #     '--batch',
-    #     action='store_false',
-    #     help='If set, algorithms get all queries at once')
+    parser.add_argument(
+        '--batch',
+        action='store_true',
+        help='If set, algorithms get all queries at once')
     parser.add_argument(
         '--runs',
         metavar='COUNT',
@@ -59,6 +54,11 @@ def main():
         help='run each algorithm instance %(metavar)s times and use only'
              ' the best result',
         default=2)
+    parser.add_argument(
+        '--searchonly',
+        action='store_true',
+        help='search specified collection'
+        )
     parser.add_argument(
         '--local',
         action='store_true',
@@ -73,12 +73,10 @@ def main():
         help='server port param for local mode',
         default='19530')
 
-    logger.debug("START")
     args = parser.parse_args()
     logger.debug(args)
 
     definitions = get_definition_from_yaml(args.suite)
-
     if args.collection:
         definitions = [
             d for d in definitions if d["collection_scheme"]["collection_name"] == args.collection]
@@ -92,4 +90,5 @@ def main():
     logger.debug("definition: %s" % definitions)
 
     for definition in definitions:
-        run(definition, args.clients, args.runs, False)
+        run(definition, args.clients, args.runs, args.batch, args.searchonly)
+

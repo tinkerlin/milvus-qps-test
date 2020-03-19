@@ -1,44 +1,36 @@
-随机dataset 使用固定种子生成
-只要传了 collection-name 就跳过train 直接 search 即可
+Benchmarking Milvus QPS Performance
+==============================
+This project contains some tools to benchmark various implementations of ANNS algorithm already supported in milvus
 
-python qps-test.py --suits example_suits.yaml # 执行对应数据集
-python qps-test.py --dataset sift1m --collection_name sift-ivf -nq 1 -topk 10 -params 32 # 直接运行，只跑这一组参数
-python qps-test.py --dataset sift1m --collection_name sift-ivf --suits example_suits # 找到对应yaml文件的collection, 获取对应的search-params 再执行
+Install
+=======
+
+The only prerequisite is Python and Milvus (tested with 3.6.8).
+
+1. Clone the repo.
+2. Run `pip install -r requirements.txt`.
+
+Running
+=======
+
+1. Run `python run.py` (this can take an extremely long time)
+
+You can customize the algorithms and datasets if you want to:
+
+* Check that `example_suite.yaml` contains the parameter settings that you want to test
+* To run specified suite, invoke `python run.py --suite=suites/your_own_suite.yaml `. See `python run.py --help` for more information on possible settings. Note that experiments can take a long time. 
+* To search specifing collection and skip the train stage(make sure the collection is already created and trained).  An example call: `python run.py --suite=suites/example_suite.yaml --searchonly --collection=example_collection `. 
 
 
-# support params
-params:
-  mode: default single
-  dataset:
-  suits:
-  corrency_num: defalut 1
-  run_count: (only search)default 5
-  nq:
-  topk:
-  params:
+Including your test-suite
+========================
 
-Directory
-- data
-  - 1000k-L2.dataset
-- log
-  - year-month-day-time.log
-- result
-    - collection-name
-      - time-result
-        - Meta
-        - result_raw
-        - report
-- TestMe
-  - main.py # params/entry
-  - runner.py # execute
-  - result.py # analysis/read/write result
-  - data.py # gen/read/write result
-  - utils.py # balabala
-  - ann-helper.py # recall/qps
+1. copy or modify suite/example_suite.yaml
 
-QPS 的metric
-多client下，计算各自1秒内的执行次数
-但client下同
 
-单client 计算平均rt
-分别计算各自的qps然后累加
+TODO
+========================
+
+1. Support ANNS stardand Dataset [sift, glove, mnist...]
+2. Collect useful data during the run
+3. Display of results is more humane

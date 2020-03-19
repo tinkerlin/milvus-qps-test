@@ -1,14 +1,15 @@
 import sys
 import random
-import logging
 import json
 import time
 import datetime
+from milvus_observer.log import Log
 from milvus import Milvus, IndexType, MetricType
 
 import pdb
 
-logger = logging.getLogger("milvus_benchmark.client")
+log = Log(__name__)
+logger = log.Logger
 
 SERVER_HOST_DEFAULT = "127.0.0.1"
 SERVER_PORT_DEFAULT = 19530
