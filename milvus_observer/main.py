@@ -7,8 +7,8 @@ import pdb
 import traceback
 
 from milvus_observer.utils import positive_int
+from milvus_observer.utils import get_definition_from_yaml
 from milvus_observer.runner import run
-from milvus_observer.data import get_definition_from_yaml
 from milvus_observer.log import Log
 
 log = Log(__name__)
