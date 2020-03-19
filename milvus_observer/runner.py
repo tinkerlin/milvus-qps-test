@@ -91,7 +91,8 @@ def run_individual_query(connect, query, search_param, batch):
         connect.query(
             query, search_param["topk"], search_param=search_param)
     else:
-        [connect.query([x], search_param["topk"], search_param=search_param) for x in query]
+        [connect.query([x], search_param["topk"],
+                       search_param=search_param) for x in query]
     total = (time.time() - start)
     attrs = {
         "total_time": total

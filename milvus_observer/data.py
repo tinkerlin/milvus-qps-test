@@ -14,7 +14,7 @@ def get_dataset_fn(fn):
 def get_dataset(definition):
     collection_scheme = definition["collection_scheme"]
     if "dataset" in collection_scheme:
-        fn = collection_scheme["dataset"] # todo
+        fn = collection_scheme["dataset"]  # todo
     else:
         fn = '%s_random_d%s_nb%s.npy' % (
             collection_scheme["metric_type"], collection_scheme["dim"], collection_scheme["data_size"])

@@ -58,12 +58,12 @@ def main():
         '--searchonly',
         action='store_true',
         help='search specified collection'
-        )
+    )
     parser.add_argument(
         '--local',
         action='store_true',
         help='use local milvus server'
-        )
+    )
     parser.add_argument(
         '--host',
         help='server host ip param for local mode',
@@ -91,4 +91,3 @@ def main():
 
     for definition in definitions:
         run(definition, args.clients, args.runs, args.batch, args.searchonly)
-
