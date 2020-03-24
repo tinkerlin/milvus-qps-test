@@ -31,7 +31,16 @@ if __name__ == "__main__":
     #         comb = generate_combinations(metric["search_args"])
     #         for e in comb:
     #             print("search_params:", e, "\n")
-    t0 = time.time()
-    t1 = time.time()
-    print("time:%f" % (t1-t0))
+    # t0 = time.time()
+    # t1 = time.time()
+    # print("time:%f" % (t1-t0))
+
+    nq = 1
+    connection_num = 1
+    batch_size = int(nq / connection_num)
+    print("batch_size:",batch_size)
+    for pos in range(connection_num):
+        start = pos * batch_size
+        end = (pos+1) * batch_size
+        print("pos %d: from %d to %d" % (pos, start, end))
 
