@@ -35,12 +35,17 @@ if __name__ == "__main__":
     # t1 = time.time()
     # print("time:%f" % (t1-t0))
 
-    nq = 1
-    connection_num = 1
-    batch_size = int(nq / connection_num)
-    print("batch_size:",batch_size)
-    for pos in range(connection_num):
-        start = pos * batch_size
-        end = (pos+1) * batch_size
-        print("pos %d: from %d to %d" % (pos, start, end))
+    # nq = 1
+    # connection_num = 1
+    # batch_size = int(nq / connection_num)
+    # print("batch_size:",batch_size)
+    # for pos in range(connection_num):
+    #     start = pos * batch_size
+    #     end = (pos+1) * batch_size
+    #     print("pos %d: from %d to %d" % (pos, start, end))
 
+    fn = "example_query.yaml"
+    with open(fn, 'r') as f:
+        definitions = yaml.load(f, yaml.SafeLoader)
+    for point in definitions:
+        print("params:", point)

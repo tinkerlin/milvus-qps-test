@@ -72,6 +72,9 @@ TODO
 ========================
 
 1. ~~Support ANNS stardand Dataset [sift, glove, mnist...]~~
-2. Collect useful data during the run
-3. Display of results is more humane
+2. ~~support search config pass by yaml~~
+3. ~~Show download progress~~
+3. Collect useful data during the run [json]
+4. Display of results is more humane
+
 

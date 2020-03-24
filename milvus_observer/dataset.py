@@ -11,11 +11,18 @@ from urllib.request import urlretrieve
 from milvus_observer.distance import dataset_transform
 
 
+def reporthook(blocknum, blocksize, totalsize):
+    percent = 100.0 * blocknum * blocksize / totalsize
+    if percent > 100:
+        percent = 100
+    print("%.2f%%" % percent)
+
+
 def download(src, dst):
     if not os.path.exists(dst):
         # TODO: should be atomic
         print('downloading %s -> %s...' % (src, dst))
-        urlretrieve(src, dst)
+        urlretrieve(src, dst, reporthook=reporthook)
 
 
 def get_dataset_fn(fn):

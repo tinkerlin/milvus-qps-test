@@ -66,10 +66,10 @@ def run(definition, connection_num, run_count, batch, searchonly):
 #         print("Running search argument group %d of %d..." %
 #               (pos, len(search_params)))
 #         print("search_params:", search_param)
-#         if search_param["query_size"] == 1:
+#         if search_param["testsize"] == 1:
 #             query_vector = [X_test[0]]
 #         else:
-#             query_vector = X_test[0:search_param["query_size"]]
+#             query_vector = X_test[0:search_param["testsize"]]
 #         min_total_time = float('inf')
 #         for _ in range(run_count):
 #             total_time = float('-inf')
@@ -81,7 +81,7 @@ def run(definition, connection_num, run_count, batch, searchonly):
 #                     total_time = total_time if total_time > data["total_time"] else data["total_time"]
 #                 min_total_time = min_total_time if min_total_time < total_time else total_time
 #         average_search_time = min_total_time / \
-#             (connection_num * search_param["query_size"])
+#             (connection_num * search_param["testsize"])
 #         print("QPS: %d\n" % (1.0 / average_search_time))
 
 
@@ -92,12 +92,12 @@ def run_paralle(search_params, collection_name, connection_num, X_test, run_coun
         print("Running search argument group %d of %d..." %
               (pos, len(search_params)))
         print("search_params:", search_param)
-        if search_param["query_size"] == 1:
+        if search_param["testsize"] == 1:
             query_vector = [X_test[0]]
         else:
-            query_vector = X_test[0:search_param["query_size"]]
+            query_vector = X_test[0:search_param["testsize"]]
 
-        batch_size = int(search_param["query_size"]/connection_num)
+        batch_size = int(search_param["testsize"]/connection_num)
         if batch_size <= 0:
             print("Error: test_size < clients num")
             exit()

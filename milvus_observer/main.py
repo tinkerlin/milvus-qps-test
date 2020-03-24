@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import pprint as pp
 
 import pdb
 import traceback
@@ -23,6 +24,11 @@ def main():
         metavar='FILE',
         help='load test suite from FILE',
         required=True)
+    parser.add_argument(
+        '--queryfile',
+        metavar='FILE',
+        help='load query conf from FILE',
+        required=False)
     parser.add_argument(
         '--collection',
         metavar='NAME',
@@ -77,6 +83,14 @@ def main():
     logger.debug(args)
 
     definitions = get_definition_from_yaml(args.suite)
+    pp.pprint(definitions)
+    print("\n")
+    if args.queryfile:
+        query_definitions = get_definition_from_yaml(args.queryfile)
+        definitions = parse_definitions(definitions, query_definitions)
+        pp.pprint(definitions)
+        exit()
+
     if args.collection:
         definitions = [
             d for d in definitions if d["collection_scheme"]["collection_name"] == args.collection]
@@ -86,8 +100,26 @@ def main():
         if args.topk:
             d["search_args"]["topk"] = [args.topk]
         if args.testsize:
-            d["search_args"]["query_size"] = [args.testsize]
+            d["search_args"]["testsize"] = [args.testsize]
     logger.debug("definition: %s" % definitions)
 
-    for definition in definitions:
-        run(definition, args.clients, args.runs, args.batch, args.searchonly)
+    if args.queryfile:
+        for definition in definitions:
+            run(definition, definition["clients"], definition["runs"], definition["batch"], True)
+    else:
+        for definition in definitions:
+            run(definition, args.clients, args.runs, args.batch, args.searchonly)
+
+
+def parse_definitions(suite, querys):
+    query_collection = [q["collection_name"] for q in querys["case"]]
+    definitions = [
+        d for d in suite if d["collection_scheme"]["collection_name"] in query_collection]
+    for d in definitions:
+        for q in querys["case"]:
+            if d["collection_scheme"]["collection_name"] == q["collection_name"]:
+                d["search_args"] = q["search_args"]
+                d["clients"] = q["clients"] if "clients" in q else querys["clients"]
+                d["runs"] = q["runs"] if "runs" in q else querys["runs"]
+                d["batch"] = q["batch"] if "batch" in q else querys["batch"]
+    return definitions
