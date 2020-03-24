@@ -29,9 +29,9 @@ def main():
         help='run only the named collection',
         default=None)
     parser.add_argument(
-        "-nq",
+        "-testsize",
         type=positive_int,
-        help="the query size",
+        help="the query vector size",
         default=None)
     parser.add_argument(
         "-k", "--topk",
@@ -85,8 +85,8 @@ def main():
     for d in definitions:
         if args.topk:
             d["search_args"]["topk"] = [args.topk]
-        if args.nq:
-            d["search_args"]["query_size"] = [args.nq]
+        if args.testsize:
+            d["search_args"]["query_size"] = [args.testsize]
     logger.debug("definition: %s" % definitions)
 
     for definition in definitions:

@@ -28,8 +28,8 @@ Example
 1. Run `python run.py --suite=suites/example_suite.yaml` 
     - The script will build collection named **ivf_random_l2** and create dataset as descried in collection_scheme. The dataset is store at data folder. After insert data and build index, the scrpit will perform sereral parameter combinations to test QPS.
 2. Once you run the suite.yaml, you don't need to recreate collection again. By invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly` , the QPS test will perform again.
-3. You can test specified search-parameter by invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly -nq=5 -k=20 --runs=10 --clients=50` .
-    - If nq or k is specified, the script will only execute the input parameter combination.
+3. You can test specified search-parameter by invoke `python run.py --suite=suites/example_suite.yaml --collection=ivf_random_l2 --searchonly -testsize=5 -k=20 --runs=10 --clients=50` .
+    - If testsize or k is specified, the script will only execute the input parameter combination.
 
 Datasets
 ========================
