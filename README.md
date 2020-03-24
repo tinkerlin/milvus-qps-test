@@ -32,9 +32,6 @@ Example
     - If testsize or k is specified, the script will only execute the input parameter combination.
 4. You can store all search config in *.yaml. By invoke `python run.py --suite=suites/example_suite.yaml --queryfile=suites/example_query.yaml`, the QPS Test will be performed according to you design.
 
-### Advance usage
-1.  
-
 
 Datasets
 ========================
@@ -79,6 +76,6 @@ TODO
 1. ~~Support ANNS stardand Dataset [sift, glove, mnist...]~~
 2. ~~support search config pass by yaml~~
 3. ~~Show download progress~~
-3. Collect useful data during the run [json]
+4. Collect useful data during the run [json]
 
 
