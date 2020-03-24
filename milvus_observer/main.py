@@ -80,14 +80,14 @@ def main():
         default='19530')
 
     args = parser.parse_args()
-    logger.debug(args)
+    logger.debug("Args: %s", args)
 
     definitions = get_definition_from_yaml(args.suite)
-    #  pp.pprint(definitions)
+    logger.debug("Raw: %s", definitions)
+
     if args.queryfile:
         query_definitions = get_definition_from_yaml(args.queryfile)
         definitions = parse_definitions(definitions, query_definitions)
-        pp.pprint(definitions)
 
     if args.collection:
         definitions = [
@@ -99,11 +99,13 @@ def main():
             d["search_args"]["topk"] = [args.topk]
         if args.testsize:
             d["search_args"]["testsize"] = [args.testsize]
-    logger.debug("definition: %s" % definitions)
+    logger.debug("Definitions: %s" % definitions)
 
     if args.queryfile:
         for definition in definitions:
-            run(definition, definition["clients"], definition["runs"], definition["batch"], True)
+            pp.pprint(definition)
+            run(definition, definition["clients"],
+                definition["runs"], definition["batch"], True)
     else:
         for definition in definitions:
             run(definition, args.clients, args.runs, args.batch, args.searchonly)

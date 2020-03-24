@@ -39,7 +39,8 @@ def build_all(connect, X_train, collection_scheme, build_param):
 
 
 def run(definition, connection_num, run_count, batch, searchonly):
-    print("run_count:%d, batch:%r, clients:%d, searchonly:%r" % (run_count, batch, connection_num, searchonly))
+    print("  run_count:%d, batch:%r, clients:%d, searchonly:%r" %
+          (run_count, batch, connection_num, searchonly))
     collection_scheme = definition["collection_scheme"]
 
     X_train, X_test = get_dataset(definition)
@@ -90,22 +91,23 @@ def run_paralle(search_params, collection_name, connection_num, X_test, run_coun
     pool = [MilvusClient(collection_name=collection_name)
             for n in range(connection_num)]
     for pos, search_param in enumerate(search_params, 1):
+        batch_size = int(search_param["testsize"]/connection_num)
+        if batch_size <= 0:
+            print("Error: testsize < clients, skip")
+            return
+
         print("Running search argument group %d of %d..." %
               (pos, len(search_params)))
-        print("search_params:", search_param)
+        print("collection: %s, search_params: %s" %
+              (collection_name, search_param))
         if search_param["testsize"] == 1:
             query_vector = [X_test[0]]
         else:
             query_vector = X_test[0:search_param["testsize"]]
 
-        batch_size = int(search_param["testsize"]/connection_num)
-        if batch_size <= 0:
-            print("Error: test_size < clients num")
-            exit()
-
         min_total_time = float('inf')
         for _ in range(run_count):
-            total_time = float('-inf') 
+            total_time = float('-inf')
             with concurrent.futures.ThreadPoolExecutor(max_workers=connection_num) as executor:
                 future_results = {executor.submit(
                     run_individual_query, pool[pos], query_vector[(pos * batch_size):(pos*batch_size + batch_size)], search_param, batch): pos for pos in range(connection_num)}
