@@ -34,4 +34,4 @@ def generate_combinations(args):
 def get_definition_from_yaml(fn):
     with open(fn, 'r') as f:
         definitions = yaml.load(f, yaml.SafeLoader)
-    return definitions["QPS"]
+    return definitions

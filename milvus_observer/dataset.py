@@ -4,6 +4,7 @@ import os
 import random
 import sys
 import sklearn.preprocessing
+import progressbar
 
 from urllib.request import urlopen
 from urllib.request import urlretrieve
@@ -11,11 +12,27 @@ from urllib.request import urlretrieve
 from milvus_observer.distance import dataset_transform
 
 
+class MyProgressBar():
+    def __init__(self):
+        self.pbar = None
+
+    def __call__(self, block_num, block_size, total_size):
+        if not self.pbar:
+            self.pbar = progressbar.ProgressBar(maxval=total_size)
+            self.pbar.start()
+
+        downloaded = block_num * block_size
+        if downloaded < total_size:
+            self.pbar.update(downloaded)
+        else:
+            self.pbar.finish()
+
+
 def download(src, dst):
     if not os.path.exists(dst):
         # TODO: should be atomic
         print('downloading %s -> %s...' % (src, dst))
-        urlretrieve(src, dst)
+        urlretrieve(src, dst, MyProgressBar())
 
 
 def get_dataset_fn(fn):
@@ -34,9 +51,8 @@ def get_dataset(definition):
             collection_scheme["metric_type"], collection_scheme["dim"], collection_scheme["data_size"])
 
     fn = get_dataset_fn(fn)
-    print(fn)
     if not os.path.exists(fn):
-        print('generating datset...')
+        print("Creating dataset locally")
         dimension = collection_scheme["dim"]
         xb = collection_scheme["data_size"]
         insert_vectors = [[random.random() for _ in range(dimension)]
