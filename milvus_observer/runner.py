@@ -104,13 +104,13 @@ def run_paralle(search_params, collection_name, connection_num, X_test, run_coun
 
         min_total_time = float('inf')
         for _ in range(run_count):
-            total_time = 0
+            total_time = float('-inf') 
             with concurrent.futures.ThreadPoolExecutor(max_workers=connection_num) as executor:
                 future_results = {executor.submit(
                     run_individual_query, pool[pos], query_vector[(pos * batch_size):(pos*batch_size + batch_size)], search_param, batch): pos for pos in range(connection_num)}
                 for future in concurrent.futures.as_completed(future_results):
                     data = future.result()
-                    total_time += data["total_time"]
+                    total_time = total_time if total_time > data["total_time"] else data["total_time"]
                 min_total_time = min_total_time if min_total_time < total_time else total_time
         average_search_time = min_total_time / (batch_size * connection_num)
         print("QPS: %d\n" % (1.0 / average_search_time))
