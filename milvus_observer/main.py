@@ -83,18 +83,16 @@ def main():
     logger.debug(args)
 
     definitions = get_definition_from_yaml(args.suite)
-    pp.pprint(definitions)
-    print("\n")
+    #  pp.pprint(definitions)
     if args.queryfile:
         query_definitions = get_definition_from_yaml(args.queryfile)
         definitions = parse_definitions(definitions, query_definitions)
         pp.pprint(definitions)
-        exit()
 
     if args.collection:
         definitions = [
             d for d in definitions if d["collection_scheme"]["collection_name"] == args.collection]
-        print(definitions)
+        #  print(definitions)
 
     for d in definitions:
         if args.topk:

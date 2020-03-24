@@ -39,6 +39,7 @@ def build_all(connect, X_train, collection_scheme, build_param):
 
 
 def run(definition, connection_num, run_count, batch, searchonly):
+    print("run_count:%d, batch:%r, clients:%d, searchonly:%r" % (run_count, batch, connection_num, searchonly))
     collection_scheme = definition["collection_scheme"]
 
     X_train, X_test = get_dataset(definition)
